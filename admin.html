@@ -27,20 +27,21 @@ document.getElementById("giveCoinsForm").addEventListener("submit", async (e) =>
   const formData = new FormData(e.target);
   const data = Object.fromEntries(formData.entries());
 
-  const res = await fetch("http://https://nexum-backend-production-426d.up.railway.app
-/admin/add-coins", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-  });
+  const res = await fetch(
+    "https://nexum-backend-production-426d.up.railway.app/admin/add-coins",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    }
+  );
 
-  if(res.ok) alert("Coins ajoutés !");
-  else {
-    const text = await res.text();
-    alert("Erreur : " + text);
-  }
+  const text = await res.text();
+  alert(text);
 });
+
 </script>
 </body>
 </html>
+
 
