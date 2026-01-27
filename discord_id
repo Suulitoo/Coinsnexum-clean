@@ -9,7 +9,8 @@ async function fetchDiscordId(accessToken) {
     discordId = data.id;
 
     // Enregistrer ou mettre à jour l'utilisateur dans le backend
-    await fetch('http://localhost:3001/api/users', {
+    await fetch('http://https://nexum-backend-production-426d.up.railway.app
+/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -19,3 +20,4 @@ async function fetchDiscordId(accessToken) {
         })
     });
 }
+
