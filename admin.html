@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Ajout Coins Nexum</title>
+</head>
+<body>
+<h2>Ajouter des Coins à un joueur</h2>
+
+<form id="giveCoinsForm">
+  <label>Nom RP :</label>
+  <input type="text" name="rp_name" required /><br/><br/>
+
+  <label>Discord ID :</label>
+  <input type="text" name="discord_id" required /><br/><br/>
+
+  <label>Nombre de coins :</label>
+  <input type="number" name="coins" required /><br/><br/>
+
+  <button type="submit">Valider</button>
+</form>
+
+<script>
+document.getElementById("giveCoinsForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(e.target);
+  const data = Object.fromEntries(formData.entries());
+
+  const res = await fetch("http://localhost:3001/admin/add-coins", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  if(res.ok) alert("Coins ajoutés !");
+  else {
+    const text = await res.text();
+    alert("Erreur : " + text);
+  }
+});
+</script>
+</body>
+</html>
