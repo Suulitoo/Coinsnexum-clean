@@ -97,7 +97,7 @@ footer {
     position: relative; z-index:1;
 }
 
-/* Bouton PayPal Ami Proche – style amélioré */
+/* Bouton PayPal Ami Proche */
 #paypal-friend-btn {
     padding: 18px 50px;
     font-size: 1.35rem;
@@ -117,6 +117,42 @@ footer {
 #paypal-friend-btn:hover {
     transform: scale(1.06);
     box-shadow: 0 0 40px rgba(0, 156, 222, 1);
+}
+
+/* Bouton confirmation achat */
+#confirm-purchase-btn {
+    padding: 16px 60px;
+    font-size: 1.3rem;
+    font-weight: bold;
+    background: linear-gradient(90deg, #f70b0b, #ff0b0b);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(247, 11, 11, 0.6);
+    transition: all 0.3s;
+}
+#confirm-purchase-btn:hover:not(:disabled) {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(247, 11, 11, 0.9);
+}
+#confirm-purchase-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Inputs pseudo & nom RP */
+input[type="text"] {
+    width: 90%;
+    max-width: 320px;
+    padding: 12px;
+    font-size: 1rem;
+    border: 2px solid #f70b0b;
+    border-radius: 8px;
+    background: #111;
+    color: white;
+    margin: 8px auto;
+    display: block;
 }
 
 /* Checkbox terms / friend */
@@ -204,14 +240,14 @@ label input {margin-right:5px;}
         </div>
     </div>
 
-    <!-- Panier (le bouton PayPal est maintenant ici) -->
+    <!-- Panier -->
     <div class="cart">
         <h3>Panier</h3>
         <button id="clearCartBtn">Vider le panier</button>
         <ul id="cartItems"></ul>
         <p>Total : <strong><span id="total">0.00</span> €</strong></p>
 
-                <p style="color:#b3b3b3; font-weight:bold; text-align:center; margin:15px 0;">
+        <p style="color:#b3b3b3; font-weight:bold; text-align:center; margin:15px 0;">
             Pour payer moins cher : utilise le bouton PayPal Ami Proche ci-dessous !<br>
             Envoie le montant exact et ton pseudo en message PayPal.
         </p>
@@ -224,23 +260,29 @@ label input {margin-right:5px;}
             </button>
         </div>
 
-        <!-- NOUVEAU : Bouton "Je confirme l'achat" + webhook -->
-        <div style="text-align:center; margin: 30px 0;">
-            <button id="confirm-purchase-btn" style="
-                padding: 16px 60px;
-                font-size: 1.3rem;
-                font-weight: bold;
-                background: linear-gradient(90deg, #f70b0b, #ff0b0b);
-                color: white;
-                border: none;
-                border-radius: 12px;
-                cursor: pointer;
-                box-shadow: 0 0 20px rgba(247, 11, 11, 0.6);
-                transition: all 0.3s;
-            ">
-                JE CONFIRME L'ACHAT
-            </button>
-            <p id="confirm-status" style="margin-top:10px; color:#b3b3b3; font-size:0.95rem; min-height:1.2em;"></p>
+        <!-- Champs infos client + Bouton confirmation -->
+        <div style="margin: 30px 0;">
+            <label for="discord-pseudo" style="display:block; margin-bottom:8px; font-size:1.1rem;">
+                Ton pseudo Discord :
+            </label>
+            <input type="text" id="discord-pseudo" placeholder="Ex: Suu#1234" required>
+
+            <label for="nom-rp" style="display:block; margin:20px 0 8px; font-size:1.1rem;">
+                Nom RP de ton personnage :
+            </label>
+            <input type="text" id="nom-rp" placeholder="Ex: Enzo Carter" required>
+
+            <p style="font-size:0.9rem; color:#b3b3b3; text-align:center; margin:10px 0;">
+                Ces infos sont obligatoires pour valider ta commande.
+            </p>
+
+            <!-- Bouton confirmation -->
+            <div style="text-align:center; margin-top:20px;">
+                <button id="confirm-purchase-btn">
+                    JE CONFIRME L'ACHAT
+                </button>
+                <p id="confirm-status" style="margin-top:12px; color:#b3b3b3; font-size:0.95rem; min-height:1.3em;"></p>
+            </div>
         </div>
 
         <!-- Checkboxes -->
@@ -251,7 +293,6 @@ label input {margin-right:5px;}
             <input type="checkbox" id="terms-check"> J’ai lu et j’accepte les <a href="conditions.html" target="_blank">conditions de vente</a>. Les achats sont définitifs et non remboursables.
         </label>
     </div>
-   
 
     <p style="color:#f70b0b; text-align:center; margin-top:15px;">
         ⚠️ Produit numérique – aucun remboursement possible après paiement. ⚠️
@@ -260,15 +301,12 @@ label input {margin-right:5px;}
 
 <footer style="position:relative;">
   © 2026 NEXUM
-  <!-- Container flottant pour bouton + flèche -->
   <div style="position: fixed; right: 20px; bottom: 10px; display: flex; align-items: center; gap: 10px; z-index: 9999;">
-    <!-- Flèche animée + texte -->
     <div style="display: flex; align-items: center; gap: 5px; font-weight: bold; color: #ff0b0b; cursor: pointer; animation: bounce 1.2s infinite;">
       <span>Clique ici</span>
       <span style="font-size:1.2rem;">➡️</span>
     </div>
 
-    <!-- Bouton Lorenzo -->
     <button id="lorenzo-btn" style="
         padding: 12px 18px;
         font-size: 0.95rem;
@@ -287,7 +325,7 @@ label input {margin-right:5px;}
 </footer>
 
 <script>
-// Bouton PayPal Ami Proche (ouvre paypal.me)
+// Bouton PayPal Ami Proche
 document.getElementById("paypal-friend-btn").onclick = () => {
     window.open("https://www.paypal.me/ErwanTerrier", "_blank");
 };
@@ -304,10 +342,10 @@ function addToCart(name, price){
 
 function renderCart(){
     const list = document.getElementById("cartItems");
-    list.innerHTML="";
+    list.innerHTML = "";
     cart.forEach(item => {
         const li = document.createElement("li");
-        li.innerHTML=`<span>${item.name}</span><span>${item.price.toFixed(2)} €</span>`;
+        li.innerHTML = `<span>${item.name}</span><span>${item.price.toFixed(2)} €</span>`;
         list.appendChild(li);
     });
     document.getElementById("total").innerText = total.toFixed(2);
@@ -318,58 +356,78 @@ document.getElementById("clearCartBtn").onclick = () => {
     total = 0;
     renderCart();
 };
-// Bouton "Je confirme l'achat" + envoi webhook Discord
+
+// Bouton Lorenzo
+document.getElementById("lorenzo-btn").onclick = () => {
+    window.open("https://suulitoo.github.io/mes-liens-social-clean/", "_blank");
+};
+
+// Bouton "JE CONFIRME L'ACHAT" + webhook Discord
 document.getElementById("confirm-purchase-btn").onclick = async () => {
     const btn = document.getElementById("confirm-purchase-btn");
     const status = document.getElementById("confirm-status");
 
-    // Déjà cliqué ou en cours ?
     if (btn.disabled) return;
 
-    // Vérifications
+    // Récup infos client
+    const discordPseudo = document.getElementById("discord-pseudo").value.trim();
+    const nomRp = document.getElementById("nom-rp").value.trim();
+
+    // Vérifications obligatoires
     const friendChecked = document.getElementById("friend-check").checked;
     const termsChecked  = document.getElementById("terms-check").checked;
 
     if (!friendChecked) {
-        status.textContent = "Coche la case « J’ai ajouté le compte PayPal en ami proche »";
+        status.textContent = "Coche la case PayPal ami proche";
         status.style.color = "#ff0b0b";
         return;
     }
     if (!termsChecked) {
-        status.textContent = "Tu dois accepter les conditions de vente.";
+        status.textContent = "Accepte les conditions de vente";
         status.style.color = "#ff0b0b";
         return;
     }
     if (total <= 0) {
-        status.textContent = "Ton panier est vide !";
+        status.textContent = "Panier vide !";
+        status.style.color = "#ff0b0b";
+        return;
+    }
+    if (!discordPseudo || discordPseudo.length < 3) {
+        status.textContent = "Pseudo Discord obligatoire (min 3 caractères)";
+        status.style.color = "#ff0b0b";
+        return;
+    }
+    if (!nomRp || nomRp.length < 3) {
+        status.textContent = "Nom RP obligatoire (min 3 caractères)";
         status.style.color = "#ff0b0b";
         return;
     }
 
-    // Confirmation utilisateur
-    if (!confirm(`Le paiement de ${total.toFixed(2)} € en Ami Proche à @Erwanterrier est effectuer?\n\n⚠️ Tout soupçon = refus immédiat. Doute ? Ticket Discord ou staff d’abord.\n\nSi OK → Merci pour ton achat Nexum ! ✌️`)) {
-        return;
-    }
+    // Confirmation finale
+    const confirmMsg = `Confirmer ton paiement de ${total.toFixed(2)} € en Ami Proche à @Erwanterrier ?\n\nPseudo Discord : ${discordPseudo}\nNom RP : ${nomRp}\n\n⚠️ Tout soupçon = refus immédiat. Si doute → ticket Discord ou staff avant.\n\nSi OK → Merci Nexum !`;
+    if (!confirm(confirmMsg)) return;
 
-    // Désactive le bouton + feedback visuel
+    // Désactive bouton + feedback
     btn.disabled = true;
     btn.style.opacity = "0.6";
-    btn.textContent = "Envoi en cours...";
+    btn.textContent = "Envoi...";
     status.textContent = "Envoi de la commande...";
 
-    // TON WEBHOOK DISCORD ICI (remplace par le vrai)
-    const webhookUrl = "https://discord.com/api/webhooks/https://discord.com/api/webhooks/1466439254581444761/2lRZ8o71jve7UTb2BtiAGSz_ti06VhX4bVYx7LueZJPM8GvhyKBrXPRixTDzMm4rVUq3";
+    // Webhook Discord
+    const webhookUrl = "https://discord.com/api/webhooks/1466439254581444761/2lRZ8o71jve7UTb2BtiAGSz_ti06VhX4bVYx7LueZJPM8GvhyKBrXPRixTDzMm4rVUq3";
 
     const embed = {
         title: "🛒 NOUVELLE COMMANDE CONFIRMÉE !",
         color: 0xff0000,
         fields: [
+            { name: "Pseudo Discord", value: discordPseudo, inline: true },
+            { name: "Nom RP", value: nomRp, inline: true },
             { name: "Panier", value: cart.map(i => `• ${i.name} — ${i.price} €`).join("\n") || "—", inline: false },
             { name: "Total", value: `${total.toFixed(2)} €`, inline: true },
             { name: "Paiement", value: "PayPal **Ami Proche** (manuel)", inline: true },
             { name: "Heure", value: new Date().toLocaleString("fr-FR", { timeZone: "Europe/Paris" }), inline: true }
         ],
-        footer: { text: "NEXUM Boutique • Attente de paiement" },
+        footer: { text: "NEXUM Boutique • Attente d'un staff après paiement" },
         timestamp: new Date().toISOString()
     };
 
@@ -380,28 +438,20 @@ document.getElementById("confirm-purchase-btn").onclick = async () => {
             body: JSON.stringify({ embeds: [embed] })
         });
 
-        if (!response.ok) throw new Error("Webhook failed");
+        if (!response.ok) throw new Error(`Erreur Discord : ${response.status}`);
 
-        status.textContent = "Commande envoyée ! Merci, attends la validation.";
+        status.textContent = "Commande envoyée ! Merci, attends la validation staff.";
         status.style.color = "#00ff00";
         btn.textContent = "Envoyé ✓";
 
-        // Optionnel : vider le panier après envoi
-        // cart = []; total = 0; renderCart();
-
     } catch (err) {
-        console.error(err);
-        status.textContent = "Erreur lors de l'envoi... Réessaie ou contacte-nous.";
+        console.error("Erreur webhook :", err);
+        status.textContent = "Erreur lors de l'envoi... Réessaie ou contacte-nous sur Discord.";
         status.style.color = "#ff0b0b";
         btn.disabled = false;
         btn.style.opacity = "1";
         btn.textContent = "JE CONFIRME L'ACHAT";
     }
-};
-
-// Bouton Lorenzo
-document.getElementById("lorenzo-btn").onclick = () => {
-    window.open("https://suulitoo.github.io/mes-liens-social-clean/", "_blank");
 };
 </script>
 
